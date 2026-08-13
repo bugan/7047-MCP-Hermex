@@ -19,6 +19,11 @@ server.registerTool(
     "get-carros-disponiveis",
     {
         description:"Busca a lista de carros disponiveis para locação na Hermex",
+        inputSchema:z.object(
+            {
+                categoria:z.string().optional().default("").describe("filtro da lista de carros"),
+            }
+        ),
         outputSchema: z.array(
             z.object({
                 id: z.string(),
@@ -37,9 +42,9 @@ server.registerTool(
             })
         )
     },
-    async () => {
-
-       const carros = await fetch("http://localhost:3333/api/cars")
+    async (input) => {
+        
+       const carros = await fetch(`http://localhost:3333/api/cars?category=${input.categoria}`)
         const carrosJson = await carros.json();
         console.log(carrosJson);
         return {
