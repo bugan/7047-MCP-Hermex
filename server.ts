@@ -20,13 +20,14 @@ server.registerTool(
     {
     description:"Busca a lista de carros disponiveis para locação na Hermex"
     },
-    () => {
+    async () => {
+
+       const carros = await fetch("http://localhost:3333/api/cars")
+        const carrosJson = await carros.json();
+        console.log(carrosJson);
         return {
-            content:[
-                {type:"text", text:"C4 Cactus"},
-                {type:"text", text:"Honda Civic"},
-                {type:"text", text:"BYD "}
-            ]
+            structuredContent:carrosJson
+            
         }
     }
 )
