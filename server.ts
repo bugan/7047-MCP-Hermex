@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { createMcpExpressApp} from '@modelcontextprotocol/express'
 import { NodeStreamableHTTPServerTransport } from "@modelcontextprotocol/node";
-
+import {z} from "zod"
 const server = new McpServer({ name: 'hermex-server', version: '1.0.0' });
 const app = createMcpExpressApp();
 
@@ -18,7 +18,24 @@ app.post('/mcp', async (req: Request, res: Response) => {
 server.registerTool(
     "get-carros-disponiveis",
     {
-    description:"Busca a lista de carros disponiveis para locação na Hermex"
+        description:"Busca a lista de carros disponiveis para locação na Hermex",
+        outputSchema: z.array(
+            z.object({
+                id: z.string(),
+                slug: z.string(),
+                name: z.string(),
+                category: z.string(),
+                description: z.string(),
+                pricePerDay: z.number().min(0),
+                image: z.string(),
+                images: z.array(z.string()),
+                features: z.array(z.string()),
+                seats: z.number(),
+                bags: z.number(),
+                transmission: z.string(),
+                available: z.boolean(),
+            })
+        )
     },
     async () => {
 
