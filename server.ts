@@ -26,30 +26,36 @@ server.registerTool(
         description: "Busca a lista de carros disponiveis para locação na Hermex",
         inputSchema: z.object({
             categoria: z.string().optional().default("").describe("Filtro da lista de carros por categoria"),
+            cursor: z.string().optional().describe("Cursor resposável pela páginação"),
         }),
-        outputSchema: z.array(
-            z.object({
-                id: z.string(),
-                slug: z.string(),
-                name: z.string(),
-                category: z.string(),
-                description: z.string(),
-                pricePerDay: z.number().min(0),
-                image: z.string(),
-                images: z.array(z.string()),
-                features: z.array(z.string()),
-                seats: z.number(),
-                bags: z.number(),
-                transmission: z.string(),
-                available: z.boolean(),
-            })
-        ),
+        outputSchema: z.object({
+            carros: z.array(
+                z.object({
+                    id: z.string(),
+                    slug: z.string(),
+                    name: z.string(),
+                    category: z.string(),
+                    description: z.string(),
+                    pricePerDay: z.number().min(0),
+                    image: z.string(),
+                    images: z.array(z.string()),
+                    features: z.array(z.string()),
+                    seats: z.number(),
+                    bags: z.number(),
+                    transmission: z.string(),
+                    available: z.boolean(),
+                })),
+            nextCursor:z.string()
+        }),
     },
     async (input) => {
-        const carros = await fetch(`${API_CARS_URL}?category=${input.categoria}`);
+        const carros = await fetch(`${API_CARS_URL}?category=${input.categoria}&cursor=${input.cursor}`);
         const carrosJson = await carros.json();
         return {
-            structuredContent: carrosJson,
+            structuredContent: {
+                carros: carrosJson.carros,
+                nextCursor: carrosJson.cursor.toString()
+            },
         };
     }
 );
