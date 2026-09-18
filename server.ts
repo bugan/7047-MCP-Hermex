@@ -1,8 +1,9 @@
-import { McpServer } from "@modelcontextprotocol/server";
+import { McpServer, ResourceTemplate } from "@modelcontextprotocol/server";
 import { createMcpExpressApp } from "@modelcontextprotocol/express";
 import { NodeStreamableHTTPServerTransport } from "@modelcontextprotocol/node";
 import { z } from "zod";
-import localidades from "./resources/localidades.json";
+import localidades_sp from "./resources/localidades-sp.json";
+import localidades_mg from "./resources/localidades-mg.json";
 
 
 const API_BASE_URL = "http://localhost:3333";
@@ -175,21 +176,38 @@ server.registerTool(
 
 server.registerResource(
     "hermex-localidades",
-    "file://hermex/localidades/{cidade}"),
+   new ResourceTemplate("file://hermex/localidades/{estado}",
+    {
+        list:async ()=>(
+            {resources: [
+                {uri:"file://hermex/localidades/sp",name:"localidade sp"},
+                {uri:"file://hermex/localidades/mg",name:"localidade mg"}
+            ]
+        })
+
+    }),
     {
         title: "localidades Hermex",
         mimeType:"text/json",
         description:"Documento com as localidades da lojas da hermex"
     },
-    async uri => ({
+    async (uri,{estado}) => {
+        let arquivo;
+        if(estado == "sp"){
+            arquivo = localidades_sp
+        }else if(estado == "mg"){
+            arquivo = localidades_mg
+        }
+        return {
         contents:[
             {
                 uri:uri.href,
                 mimetype:"text/json",
-                text: JSON.stringify(localidades)
+                text: JSON.stringify(arquivo)
             }
         ]  
-       })
+       }
+    }
 
 )
 

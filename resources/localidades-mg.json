@@ -1,0 +1,38 @@
+[
+    {
+        "id": "cmsysu9wn0005lxk4nabyor3u",
+        "name": "Aeroporto de Confins (Tancredo Neves)",
+        "city": "Confins",
+        "state": "MG"
+    },
+    {
+        "id": "cmsysu9wn0006lxk4v8cq10c7",
+        "name": "Aeroporto da Pampulha",
+        "city": "Belo Horizonte",
+        "state": "MG"
+    },
+    {
+        "id": "cmsysu9wn0007lxk4xst59ri2",
+        "name": "Centro - Praça da Liberdade",
+        "city": "Belo Horizonte",
+        "state": "MG"
+    },
+    {
+        "id": "cmsysu9wn0008lxk42ru92l2t",
+        "name": "Aeroporto de Uberlândia",
+        "city": "Uberlândia",
+        "state": "MG"
+    },
+    {
+        "id": "cmsysu9wn0009lxk4qo36oj6h",
+        "name": "Centro Histórico",
+        "city": "Ouro Preto",
+        "state": "MG"
+    },
+    {
+        "id": "cmsysu9wn0010lxk4p298js82",
+        "name": "Aeroporto de Juiz de Fora (Zona da Mata)",
+        "city": "Goianá",
+        "state": "MG"
+    }
+]
