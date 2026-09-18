@@ -18,9 +18,8 @@ const server = new McpServer(
     { name: "hermex-server", version: "1.0.0" },
     {
         capabilities: {
-            resources: {
-            listChanged: true
-            }
+            resources: {listChanged: true},
+            prompts:{listChanged: true}
         }
     }
 
@@ -209,6 +208,34 @@ server.registerResource(
        }
     }
 
+)
+
+server.registerPrompt(
+    "hermex-reserva-carro",
+    {
+        title:"Reserva Hermex",
+        description:"Reserve um carro na Hermex",
+        argsSchema : z.object(
+            {
+                carro: z.string().describe("ID do carro a ser reservado"),
+                local: z.string().describe("ID da localização de retirada do veículo"),
+                retirada: z.iso.date().describe("Data de retirada do veículo (formato ISO: YYYY-MM-DD)"),
+                devolucao: z.iso.date().describe("Data de devolução do veículo (formato ISO: YYYY-MM-DD)"),
+                seguro: z.string().describe("ID do plano de seguro (proteção) escolhido"),
+            }
+        )
+    },
+    async ({carro, retirada, devolucao, local, seguro}) => ({
+        messages:[
+            {
+                role:"user",
+                content:{
+                    type:"text",
+                    text:`Verifique se o ${carro} está disponível para retirada na data ${retirada} e devolução em ${devolucao}. Se ele estiver, reserve esse carro para retirada em ${local} com o plano de seguro ${seguro}.`
+                }
+            },
+        ]
+    })
 )
 
 app.listen(3000, () => {
