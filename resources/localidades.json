@@ -1,0 +1,32 @@
+[
+    {
+        "id": "cmsysu9wn0000lxk4nabyor3u",
+        "name": "Aeroporto de Congonhas",
+        "city": "São Paulo",
+        "state": "SP"
+    },
+    {
+        "id": "cmsysu9wn0001lxk4v8cq10c7",
+        "name": "Aeroporto de Guarulhos",
+        "city": "Guarulhos",
+        "state": "SP"
+    },
+    {
+        "id": "cmsysu9wn0002lxk4xst59ri2",
+        "name": "Aeroporto de Viracopos",
+        "city": "Campinas",
+        "state": "SP"
+    },
+    {
+        "id": "cmsysu9wn0004lxk42ru92l2t",
+        "name": "Centro - Av. Paulista",
+        "city": "São Paulo",
+        "state": "SP"
+    },
+    {
+        "id": "cmsysu9wn0003lxk4qo36oj6h",
+        "name": "Shopping Ibirapuera",
+        "city": "São Paulo",
+        "state": "SP"
+    }
+]

@@ -2,6 +2,8 @@ import { McpServer } from "@modelcontextprotocol/server";
 import { createMcpExpressApp } from "@modelcontextprotocol/express";
 import { NodeStreamableHTTPServerTransport } from "@modelcontextprotocol/node";
 import { z } from "zod";
+import localidades from "./resources/localidades.json";
+
 
 const API_BASE_URL = "http://localhost:3333";
 const API_CARS_URL = `${API_BASE_URL}/api/cars`;
@@ -9,10 +11,22 @@ const API_RESERVATIONS_URL = `${API_BASE_URL}/api/reservations`;
 const API_LOCATIONS_URL = `${API_BASE_URL}/api/locations`;
 const API_PROTECTIONS_URL = `${API_BASE_URL}/api/protections`;
 
-const server = new McpServer({ name: "hermex-server", version: "1.0.0" });
+
+
+const server = new McpServer(
+    { name: "hermex-server", version: "1.0.0" },
+    {
+        capabilities: {
+            resources: {
+            listChanged: true
+            }
+        }
+    }
+
+);
 const app = createMcpExpressApp();
 
-app.post("/mcp", async (req: Request, res: Response) => {
+app.all("/mcp", async (req: Request, res: Response) => {
     const transport = new NodeStreamableHTTPServerTransport({ sessionIdGenerator: undefined });
     await server.connect(transport);
 
@@ -158,6 +172,26 @@ server.registerTool(
         };
     }
 );
+
+server.registerResource(
+    "hermex-localidades",
+    "file://hermex/localidades/{cidade}"),
+    {
+        title: "localidades Hermex",
+        mimeType:"text/json",
+        description:"Documento com as localidades da lojas da hermex"
+    },
+    async uri => ({
+        contents:[
+            {
+                uri:uri.href,
+                mimetype:"text/json",
+                text: JSON.stringify(localidades)
+            }
+        ]  
+       })
+
+)
 
 app.listen(3000, () => {
     console.log("Servidor no ar");
