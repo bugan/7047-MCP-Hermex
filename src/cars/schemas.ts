@@ -2,7 +2,8 @@ import { z } from "zod";
 
 export const getCarrosDisponiveisInputSchema = z.object({
     categoria: z.string().optional().default("").describe("Filtro da lista de carros por categoria"),
-    cursor: z.string().optional().describe("Cursor resposável pela páginação"),
+    cursor: z.string().default("0").describe("Cursor resposável pela páginação"),
+    data: z.iso.date().describe("Data de retirada do veículo (formato ISO: YYYY-MM-DD)")
 });
 
 export const carroSchema = z.object({
