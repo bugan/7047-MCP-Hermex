@@ -1,8 +1,9 @@
 import { ProtocolError, ProtocolErrorCode } from "@modelcontextprotocol/server";
-import pino from "pino"
+import { logger } from "../logger";
+
 export class MeuErroCustomizado extends Error {}
 
-const logger = pino();
+
 export function ferramentaComTratamento(callback: any) {
     return async (input: any) => {
         try {

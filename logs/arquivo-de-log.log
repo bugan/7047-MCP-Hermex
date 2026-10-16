@@ -1,0 +1,4 @@
+{"level":30,"time":1792169865001,"pid":105832,"hostname":"ARICBUGINS","msg":"Erro encontrado"}
+{"level":60,"time":1792169865001,"pid":105832,"hostname":"ARICBUGINS","msg":"Cannot read properties of undefined (reading 'toString')"}
+{"level":30,"time":1792169869690,"pid":105832,"hostname":"ARICBUGINS","msg":"Erro encontrado"}
+{"level":50,"time":1792169869690,"pid":105832,"hostname":"ARICBUGINS","msg":"Data fora do intervalo aceito"}
