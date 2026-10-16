@@ -2,6 +2,7 @@ import { ResourceTemplate, type McpServer } from "@modelcontextprotocol/server";
 import localidades_mg from "../../resources/localidades-mg.json";
 import localidades_sp from "../../resources/localidades-sp.json";
 import { API_LOCATIONS_URL } from "../config";
+import { ferramentaComTratamento } from "../erros";
 import { getLocalizacoesOutputSchema } from "./schemas";
 
 const localidadesPorEstado: Record<string, unknown> = {
@@ -16,13 +17,13 @@ export function registerLocations(server: McpServer) {
             description: "Lista as localizações disponíveis para retirada e devolução de veículos na Hermex",
             outputSchema: getLocalizacoesOutputSchema,
         },
-        async () => {
+        ferramentaComTratamento(async () => {
             const localizacoes = await fetch(API_LOCATIONS_URL);
             const localizacoesJson = await localizacoes.json();
             return {
                 structuredContent: localizacoesJson,
             };
-        }
+        })
     );
 
     server.registerResource(

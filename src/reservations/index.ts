@@ -1,5 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/server";
 import { API_RESERVATIONS_URL } from "../config";
+import { ferramentaComTratamento } from "../erros";
 import {
     cancelReservaInputSchema,
     createReservaInputSchema,
@@ -13,7 +14,7 @@ export function registerReservations(server: McpServer) {
             description: "Use essa ferramenta para criar uma reserva",
             inputSchema: createReservaInputSchema,
         },
-        async (input) => {
+        ferramentaComTratamento(async (input) => {
             const pedido = await fetch(API_RESERVATIONS_URL, {
                 method: "POST",
                 headers: {
@@ -25,7 +26,7 @@ export function registerReservations(server: McpServer) {
             return {
                 structuredContent: reservaJson,
             };
-        }
+        })
     );
 
     server.registerTool(
@@ -34,7 +35,7 @@ export function registerReservations(server: McpServer) {
             description: "Use para cancelar uma reserva já confirmada",
             inputSchema: cancelReservaInputSchema,
         },
-        async ({ reservationID }) => {
+        ferramentaComTratamento(async ({ reservationID }) => {
             const pedido = await fetch(`${API_RESERVATIONS_URL}/${reservationID}/cancel`, {
                 method: "PATCH",
                 headers: {
@@ -47,7 +48,7 @@ export function registerReservations(server: McpServer) {
             return {
                 structuredContent: resposta,
             };
-        }
+        })
     );
 
     server.registerPrompt(

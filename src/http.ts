@@ -14,5 +14,6 @@ export function createHttpApp(server: McpServer) {
         await transport.handleRequest(req, res, req.body);
     });
 
+
     return app;
 }

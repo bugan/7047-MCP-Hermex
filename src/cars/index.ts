@@ -1,5 +1,6 @@
-import { ProtocolError, ProtocolErrorCode, type McpServer } from "@modelcontextprotocol/server";
+import type { McpServer } from "@modelcontextprotocol/server";
 import { API_CARS_URL } from "../config";
+import { MeuErroCustomizado, ferramentaComTratamento } from "../erros";
 import { getCarrosDisponiveisInputSchema, getCarrosDisponiveisOutputSchema } from "./schemas";
 
 export function registerCars(server: McpServer) {
@@ -10,25 +11,13 @@ export function registerCars(server: McpServer) {
             inputSchema: getCarrosDisponiveisInputSchema,
             outputSchema: getCarrosDisponiveisOutputSchema,
         },
-        async (input) => {
-
-            if(new Date(input.data).getTime() < Date.now()){
-                throw new Error("Data fora do intervalo aceito")
-                return{
-                    content:[{
-                        type: "text",
-                        text: "Data fora do intervalo aceito"
-                    }],
-                    isError:true
-                }
+        ferramentaComTratamento(async (input) => {
+            if (new Date(input.data).getTime() < Date.now()) {
+                throw new MeuErroCustomizado("Data fora do intervalo aceito");
             }
-        
+
             const carros = await fetch(`${API_CARS_URL}/naoexiete?category=${input.categoria}&cursor=${input.cursor}`);
             const carrosJson = await carros.json();
-            if(carros.status == 404){
-                throw new ProtocolError(ProtocolErrorCode.InternalError,"Erro interno do Servidor");
-            }
-new 
 
             return {
                 structuredContent: {
@@ -36,7 +25,6 @@ new
                     nextCursor: carrosJson.cursor.toString(),
                 },
             };
-           
-        }
+        })
     );
 }
